@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report - {{ company.company_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary mb-4">← Back to Search</a>
+        <h2>{{ company.company_name }}</h2>
+        <p><strong>Company Number:</strong> {{ company.company_number }}</p>
+        <p><strong>Status:</strong> {{ company.company_status }}</p>
+        <p><strong>Incorporation Date:</strong> {{ company.incorporation_date }}</p>
+
+        <hr>
+
+        <h3>Filing History</h3>
+        {% if plot %}
+            <img src="data:image/png;base64,{{ plot }}" alt="Filing History Plot" class="img-fluid">
+        {% else %}
+            <p>No filing history available.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Directors</h3>
+        {% if officers %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Appointed On</th>
+                        <th>Resigned On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for officer in officers %}
+                        <tr>
+                            <td>{{ officer.name }}</td>
+                            <td>{{ officer.role }}</td>
+                            <td>{{ officer.appointed_on }}</td>
+                            <td>{{ officer.resigned_on or 'N/A' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No current directors found.</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Financial Statements</h3>
+        <p>Financial data extraction is currently under development.</p>
+        <!-- Future enhancements can include parsing and displaying financial statements -->
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
